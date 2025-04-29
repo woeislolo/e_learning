@@ -99,19 +99,26 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
     template_name = 'courses/manage/content/form.html'
 
     def get_model(self, model_name):
+        """ Возвращает название модели либо None """
         if model_name in ['text', 'video', 'image', 'file']:
             return apps.get_model(app_label='courses',
                                   model_name=model_name)
         return None
 
     def get_form(self, model, *args, **kwargs):
+        """ Генерирует форму в зависимости от модели """
         Form = modelform_factory(model, exclude=['owner',
                                                  'order',
                                                  'created',
                                                  'updated'])
+
         return Form(*args, **kwargs)
 
     def dispatch(self, request, module_id, model_name, id=None):
+        """ Получает параметры URL, 
+        сохраняет в атрибуты вью: id модуля, имя модели контента, id обновляемого объекта либо None (для нового объекта),
+        выполняет super().dispatch()
+        """
         self.module = get_object_or_404(Module,
                                        id=module_id,
                                        course__owner=request.user)
@@ -128,6 +135,7 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
                                         'object': self.obj})
 
     def post(self, request, module_id, model_name, id=None):
+        """Обновляет существующий объект контента либо создает новый """
         form = self.get_form(self.model,
                              instance=self.obj,
                              data=request.POST,
@@ -137,7 +145,6 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
             obj.owner = request.user
             obj.save()
             if not id:
-                # new content
                 Content.objects.create(module=self.module,
                                        item=obj)
             return redirect('module_content_list', self.module.id)
