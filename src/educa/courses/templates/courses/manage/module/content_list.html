@@ -96,4 +96,22 @@
       fetch(moduleOrderUrl, options)
     });
   });
+
+  const contentOrderUrl = "{% url 'content_order' %}";
+
+  sortable('#module-contents', {
+    forcePlaceholderSize: true,
+    placeholderClass: 'placeholder'
+  })[0].addEventListener('sortupdate', function(e) {
+
+    contentOrder = {};
+    var contents = document.querySelectorAll('#module-contents div');
+    contents.forEach(function (content, index) {
+      contentOrder[content.dataset.id] = index;
+      options['body'] = JSON.stringify(contentOrder);
+
+      fetch(contentOrderUrl, options)
+    });
+  });
+
 {% endblock %}
