@@ -9,6 +9,11 @@ from django.urls import reverse_lazy
 from django.forms.models import modelform_factory
 from django.apps import apps
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_exempt
+
+from braces.views import CsrfExemptMixin, JsonRequestResponseMixin
+
 from .forms import ModuleFormSet
 from .models import Course, Module, Content
 
@@ -172,3 +177,11 @@ class ModuleContentListView(TemplateResponseMixin, View):
                                    course__owner=request.user)
         return self.render_to_response({'module': module})
 
+
+class ModuleOrderView(CsrfExemptMixin, JsonRequestResponseMixin, View):
+    """ Обновляет порядок следования модулей курса """
+    def post(self, request):
+        for id, order in self.request_json.items():
+            Module.objects.filter(id=id, course__owner=request.user) \
+                .update(order=order)
+        return self.render_json_response({'saved': 'OK'})
