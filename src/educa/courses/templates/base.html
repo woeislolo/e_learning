@@ -26,11 +26,8 @@
     {% block include_js %}
     {% endblock %}
 
-    <script>
-      document.addEventListener('DOMContentLoaded', (event) => {
-        {% block domready %}
-        {% endblock %}
-      })
-    </script>
+    {% block domready %}
+    {% endblock %}
+
   </body>
 </html>
