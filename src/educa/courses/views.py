@@ -211,3 +211,11 @@ class CourseListView(TemplateResponseMixin, View):
         return self.render_to_response({'subjects': subjects,
                                         'subject': subject,
                                         'courses': courses})
+
+
+class CourseDetailView(DetailView):
+    """ Отображает информацию по курсу """
+    model = Course
+    template_name = 'courses/course/detail.html'
+    context_object_name = 'course'
+    
