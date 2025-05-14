@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block title %}
+  {% if subject %}
+    Курсы по предмету "{{ subject.title }}"
+  {% else %}
+    Все курсы
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  <h1>
+    {% if subject %}
+      Курсы по предмету "{{ subject.title }}"
+    {% else %}
+      Все курсы
+    {% endif %}
+  </h1>
+  <div class="contents">
+    <h3>Предметы</h3>
+    <ul id="modules">
+      <li {% if not subject %}class="selected"{% endif %}>
+        <a href="{% url 'course_list' %}">Все</a>
+      </li>
+      {% for s in subjects %}
+        <li {% if subject == s %}class="selected"{% endif %}>
+          <a href="{% url 'course_list_subject' s.slug %}">
+            {{ s.title }}
+            <br>
+            <span>Кол-во курсов: {{ s.total_courses }}</span>
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <div class="module">
+    {% for course in courses %}
+      {% with subject=course.subject %}
+        <h3>
+          <a href="#">
+            {{ course.title }}
+          </a>
+        </h3>
+        <p>
+          <a href="{% url 'course_list_subject' subject.slug %}">{{ subject }}</a>.
+            Кол-во модулей: {{ course.total_modules }}.
+            Преподаватель: {{ course.owner.get_full_name }}
+        </p>
+      {% endwith %}
+    {% endfor %}
+  </div>
+{% endblock %}
