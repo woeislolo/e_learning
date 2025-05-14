@@ -15,6 +15,7 @@ from braces.views import CsrfExemptMixin, JsonRequestResponseMixin
 
 from .forms import ModuleFormSet
 from .models import Course, Module, Content, Subject
+from students.forms import CourseEnrollForm
 
 
 class OwnerMixin:
@@ -211,11 +212,16 @@ class CourseListView(TemplateResponseMixin, View):
         return self.render_to_response({'subjects': subjects,
                                         'subject': subject,
                                         'courses': courses})
-
-
+    
+    
 class CourseDetailView(DetailView):
     """ Отображает информацию по курсу """
     model = Course
     template_name = 'courses/course/detail.html'
     context_object_name = 'course'
-    
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['enroll_form'] = CourseEnrollForm(
+                                   initial={'course': self.object})
+        return context
