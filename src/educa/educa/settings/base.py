@@ -1,11 +1,14 @@
 from pathlib import Path
 
+# from pythonjsonlogger.json import JsonFormatter
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent.parent # если не файл, а папка settings
 
 INSTALLED_APPS = [
+    'students.apps.StudentsConfig',
     'courses.apps.CoursesConfig',
-    
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
