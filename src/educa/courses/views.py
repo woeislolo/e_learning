@@ -7,8 +7,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin, \
 from django.urls import reverse_lazy
 from django.forms.models import modelform_factory
 from django.apps import apps
-from django.utils.decorators import method_decorator
-from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Count
 
 from braces.views import CsrfExemptMixin, JsonRequestResponseMixin
@@ -213,7 +211,7 @@ class CourseListView(TemplateResponseMixin, View):
                                         'subject': subject,
                                         'courses': courses})
     
-    
+
 class CourseDetailView(DetailView):
     """ Отображает информацию по курсу """
     model = Course
