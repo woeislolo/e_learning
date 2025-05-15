@@ -13,7 +13,7 @@
     <ul id="modules">
       {% for m in course.modules.all %}
         <li data-id="{{ m.id }}" {% if m == module %}class="selected"{% endif %}>
-          <a href="#">
+          <a href="{% url 'student_course_detail_module' course.id m.id %}"> 
             <span>
               Модуль <span class="order">{{ m.order|add:1 }}</span>
             </span>

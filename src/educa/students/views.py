@@ -27,7 +27,7 @@ class StudentRegistrationView(CreateView):
 
 class StudentEnrollCourseView(LoginRequiredMixin, FormView):
     """ Записывает студента на курс, в случае успеха - редирект на главную страницу """
-
+    
     course = None
     form_class = CourseEnrollForm
 
@@ -55,7 +55,7 @@ class StudentCourseListView(LoginRequiredMixin, ListView):
 
 class StudentCourseDetailView(DetailView):
     """ Отображает выбранный студентом курс """
-
+    
     model = Course
     template_name = 'students/course/detail.html'
     context_object_name = 'course'
@@ -63,4 +63,17 @@ class StudentCourseDetailView(DetailView):
     def get_queryset(self):
         queryset = super().get_queryset()
         return queryset.filter(students__in=[self.request.user])
+
+    def get_context_data(self, **kwargs):
+        """ Добавляет в контекст номер модуля курса, если он задан в URL. 
+        Иначе задает первый модуль курса """
+
+        context = super().get_context_data(**kwargs)
+
+        course = self.get_object()
+        if 'module_id' in self.kwargs:
+            context['module'] = course.modules.get(id=self.kwargs['module_id'])
+        else:
+            context['module'] = course.modules.all()[0]
+        return context
     
