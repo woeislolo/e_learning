@@ -8,12 +8,18 @@ from django.urls import reverse_lazy
 from django.forms.models import modelform_factory
 from django.apps import apps
 from django.db.models import Count
+from django.contrib.auth import logout
 
 from braces.views import CsrfExemptMixin, JsonRequestResponseMixin
 
 from .forms import ModuleFormSet
 from .models import Course, Module, Content, Subject
 from students.forms import CourseEnrollForm
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('course_list')
 
 
 class OwnerMixin:
@@ -138,7 +144,7 @@ class ContentCreateUpdateView(TemplateResponseMixin, View):
                                         'object': self.obj})
 
     def post(self, request, module_id, model_name, id=None):
-        """Обновляет существующий объект контента либо создает новый """
+        """ Обновляет существующий объект контента либо создает новый """
         form = self.get_form(self.model,
                              instance=self.obj,
                              data=request.POST,
@@ -210,7 +216,7 @@ class CourseListView(TemplateResponseMixin, View):
         return self.render_to_response({'subjects': subjects,
                                         'subject': subject,
                                         'courses': courses})
-    
+
 
 class CourseDetailView(DetailView):
     """ Отображает информацию по курсу """
