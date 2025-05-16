@@ -24,7 +24,13 @@ DATABASES = {
     },
 }
 
-# уточнит про статику и медиал - что в локал. что в прорд
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.memcached.PyMemcacheCache",
+        "LOCATION": "127.0.0.1:11211",
+    }
+}
+
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
 
