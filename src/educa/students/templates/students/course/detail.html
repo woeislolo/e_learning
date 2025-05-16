@@ -26,5 +26,14 @@
       {% endfor %}
     </ul>
   </div>
-
+  <div class="module">
+    {% for content in module.contents.all %}
+      {% with item=content.item %}
+        <h2>{{ item.title }}</h2>
+        {{ item.render }} 
+      {% endwith %}
+    {% empty %}
+      <h2>Здесь пока ничего нет. :(</h2>
+    {% endfor %}
+  </div>
 {% endblock %}
