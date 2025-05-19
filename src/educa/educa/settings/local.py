@@ -12,6 +12,10 @@ config = dotenv_values()
 SECRET_KEY = config.get("DJANGO_SECRET_KEY")
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
+INTERNAL_IPS = config.get("INTERNAL_IPS")
+
+INSTALLED_APPS += ['debug_toolbar',]
+MIDDLEWARE.insert(0, 'debug_toolbar.middleware.DebugToolbarMiddleware')
 
 DATABASES = {
     'default': {
