@@ -14,6 +14,7 @@ urlpatterns = [
     path('students/', include('students.urls')),
     path('admin/', admin.site.urls),
     path('', CourseListView.as_view(), name='course_list'),
+    path('api/v1/', include('courses.api.urls'), name='api'),
 ]
 
 
