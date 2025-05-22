@@ -8,6 +8,7 @@ from django.urls import reverse_lazy
 BASE_DIR = Path(__file__).resolve().parent.parent.parent # если не файл, а папка settings
 
 INSTALLED_APPS = [
+    'daphne',
     'students.apps.StudentsConfig',
     'courses.apps.CoursesConfig',
 
@@ -22,6 +23,7 @@ INSTALLED_APPS = [
     'embed_video',
     'redisboard',
     'rest_framework',
+    'channels',
 
     'chat.apps.ChatConfig',
 ]
@@ -54,6 +56,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'educa.wsgi.application'
+ASGI_APPLICATION = 'educa.asgi.application' 
 
 AUTH_PASSWORD_VALIDATORS = [
     {
