@@ -16,5 +16,6 @@ urlpatterns = [
     path('', include(router.urls)), 
         # courses/ (list), 
         # courses/pk/ (retrieve), 
-        # courses/pk/enroll/ (enroll)
+        # courses/pk/enroll/ (enroll),
+        # courses/pk/contents/ (contents),
 ]

@@ -6,6 +6,7 @@ from rest_framework.response import Response
 
 from courses.models import *
 from .serializers import *
+from .permissions import *
 
 
 class SubjectListView(generics.ListAPIView):
@@ -22,9 +23,9 @@ class SubjectDetailView(generics.RetrieveAPIView):
 
 class CourseViewSet(viewsets.ReadOnlyModelViewSet):
     """ Вернет список всех курсов с детальной информацией, 
-    либо детальную информацию по конкретному курсу,
-    либо зачислит студента на конкретный курс """
-    # list, retrieve + enroll
+    либо детальную информацию по конкретному курсу и его модулям,
+    либо зачислит студента на конкретный курс,
+    либо отдаст контент по конкретному курсу для авторизованного и зачисленного на курс студента """
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
 
@@ -37,4 +38,12 @@ class CourseViewSet(viewsets.ReadOnlyModelViewSet):
         course = self.get_object()
         course.students.add(request.user)
         return Response({'enrolled': True})
+
+    @action(detail=True,
+            methods=['get'],
+            serializer_class=CourseWithContentsSerializer,
+            authentication_classes=[BasicAuthentication],
+            permission_classes=[IsAuthenticated, IsEnrolled])
+    def contents(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
     
