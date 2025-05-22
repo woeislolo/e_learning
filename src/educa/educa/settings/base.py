@@ -22,6 +22,8 @@ INSTALLED_APPS = [
     'embed_video',
     'redisboard',
     'rest_framework',
+
+    'chat.apps.ChatConfig',
 ]
 
 MIDDLEWARE = [
@@ -92,3 +94,49 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
 }
+
+# # logs
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+
+#     'formatters': {
+#         'formatter':{
+#             'format': '{levelname} {asctime} {filename} {message}',
+#             'style': '{', 
+#             },
+#         'server_formatter': {
+#             '()': 'django.utils.log.ServerFormatter',
+#             'format': '{levelname} {asctime} {filename} {message}',
+#             'style': '{',
+#             },
+#         'json_formatter': {
+#             '()': JsonFormatter,
+#             'format': '{levelname} {asctime} {filename} {message}',
+#             'style': '{',
+#             }
+#         },
+#     'handlers': {
+#         'file': {
+#             'level': 'WARNING',
+#             'class': 'logging.FileHandler',
+#             'filename': 'log.log',
+#             'formatter': 'server_formatter',
+#             'encoding': 'UTF-8'
+#             },
+#         'json_file': {
+#             'level': 'WARNING',
+#             'class': 'logging.FileHandler',
+#             'filename': 'log.json',
+#             'formatter': 'json_formatter',
+#             'encoding': 'UTF-8'
+#             },
+#         },
+#     'loggers': {
+#         'reserv': {
+#             'handlers': ['file', 'json_file'],
+#             'level': 'WARNING',
+#             'propagate': True,
+#             },
+#         },
+#     }
